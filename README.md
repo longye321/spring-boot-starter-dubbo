@@ -1,9 +1,9 @@
-spring-boot-starter-dubbo
+dubbo-spring-boot-starter [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.alibaba.spring.boot/dubbo-spring-boot-starter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.alibaba.spring.boot/dubbo-spring-boot-starter)
 ===================================
 
-[中文版文档](https://github.com/alibaba/spring-boot-starter-dubbo/blob/master/README_zh.md)
+[中文版文档](https://github.com/alibaba/dubbo-spring-boot-starter/blob/master/README_zh.md)
 
-Spring Boot with dubbo support. Dubbo is an RPC framework.
+Dubbo Spring Boot Starter. Dubbo official [dubbo-spring-boot-project](https://github.com/dubbo/dubbo-spring-boot-project)
 
 Support jdk version 1.6 or 1.6+
 
@@ -15,17 +15,17 @@ Support jdk version 1.6 or 1.6+
 
 ```xml
     <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>spring-boot-starter-dubbo</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <groupId>com.alibaba.spring.boot</groupId>
+        <artifactId>dubbo-spring-boot-starter</artifactId>
+        <version>2.0.0</version>
     </dependency>
 ```
 * add dubbo configuration in application.properties, demo:
 
 ```properties
-spring.dubbo.appname=spring-boot-starter-dubbo-provider-test
-spring.dubbo.registry=multicast://224.0.0.0:1111
-spring.dubbo.protocol=dubbo
+spring.application.name=dubbo-spring-boot-starter
+spring.dubbo.server=true
+spring.dubbo.registry=N/A
 ```
 
 * then add `@EnableDubboConfiguration` on Spring Boot Application, indicates that dubbo is enabled.(web or non-web application can use dubbo provider)
@@ -42,12 +42,13 @@ public class DubboProviderLauncher {
 
 ```java
 @Service(interfaceClass = IHelloService.class)
+@Component
 public class HelloServiceImpl implements IHelloService {
   //...
 }
 ```
 
-* start Spring Boot.
+* Start Spring Boot.
 
 
 ### How to consume Dubbo
@@ -56,18 +57,16 @@ public class HelloServiceImpl implements IHelloService {
 
 ```xml
     <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>spring-boot-starter-dubbo</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <groupId>com.alibaba.spring.boot</groupId>
+        <artifactId>dubbo-spring-boot-starter</artifactId>
+        <version>2.0.0</version>
     </dependency>
 ```
 
 * add dubbo configuration in application.properties, demo:
 
 ```properties
-spring.dubbo.appname=spring-boot-starter-dubbo-consumer-test
-spring.dubbo.registry=multicast://224.0.0.0:1111
-spring.dubbo.protocol=dubbo
+spring.application.name=dubbo-spring-boot-starter
 ```
 
 * then add `@EnableDubboConfiguration` on Spring Boot Application
@@ -80,12 +79,12 @@ public class DubboConsumerLauncher {
 }
 ```
 
-* injection interface by the `@DubboConsumer` annotation.
+* injection interface by the `@Reference` annotation.
 
 ```java
 @Component
 public class HelloConsumer {
-  @DubboConsumer
+  @Reference(url = "dubbo://127.0.0.1:20880")
   private IHelloService iHelloService;
 
 }
@@ -93,6 +92,6 @@ public class HelloConsumer {
 
 ### Reference
 
-* dubbo: http://dubbo.io/
-* spring-boot: http://projects.spring.io/spring-boot/
-* spring-boot-starter-dubbo: https://github.com/linux-china/spring-boot-dubbo
+* dubbo: http://dubbo.io
+* spring-boot: http://projects.spring.io/spring-boot
+* dubbo-spring-boot-project: https://github.com/dubbo/dubbo-spring-boot-project
